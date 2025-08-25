@@ -34,7 +34,7 @@ class _SignInPageState extends State<SignInPage> {
             fit: BoxFit.cover,  
           ),
         ),
-        alignment: Alignment(0, 1),
+        alignment: Alignment(0, 0.8),
         child: GlassBox(
           width: MediaQuery.of(context).size.width - 50,
           height: 550,
