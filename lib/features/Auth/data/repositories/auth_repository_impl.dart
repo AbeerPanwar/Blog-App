@@ -1,6 +1,7 @@
 import 'package:blog_app/core/error/exceptions.dart';
 import 'package:blog_app/core/error/faliure.dart';
 import 'package:blog_app/features/Auth/data/data_sources/auth_supabase_source.dart';
+import 'package:blog_app/features/Auth/domain/entities/profile.dart';
 import 'package:blog_app/features/Auth/domain/repositories/Auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
@@ -9,7 +10,7 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this.supabaseSource);
 
   @override
-  Future<Either<Faliure, String>> signIn({
+  Future<Either<Faliure, Profile>> signIn({
     required String email,
     required String password,
   }) {
@@ -18,18 +19,18 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<Either<Faliure, String>> signUp({
+  Future<Either<Faliure, Profile>> signUp({
     required String name,
     required String email,
     required String password,
   }) async {
     try {
-      final userId = await supabaseSource.signUp( 
-        name: name, 
-        email: email, 
-        password: password
+      final user = await supabaseSource.signUp(
+        name: name,
+        email: email,
+        password: password,
       );
-      return right(userId);
+      return right(user);
     } on ServerException catch (e) {
       return left(Faliure(e.message));
     }
