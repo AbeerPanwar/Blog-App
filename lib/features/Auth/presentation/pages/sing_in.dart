@@ -79,7 +79,10 @@ class _SignInPageState extends State<SignInPage> {
                 SizedBox(
                   height: 30,
                 ),
-                AuthButton(text: 'Sign In',),
+                AuthButton(
+                  text: 'Sign In',
+                  onTap: (){},
+                ),
                 SizedBox(
                   height: 10,
                 ),

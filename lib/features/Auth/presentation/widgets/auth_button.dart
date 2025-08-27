@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 class AuthButton extends StatelessWidget {
   final String text;
+  final VoidCallback onTap;
   const AuthButton({
     super.key, 
-    required this.text
+    required this.text, 
+    required this.onTap,
   });
 
   @override
@@ -16,7 +18,7 @@ class AuthButton extends StatelessWidget {
         color: Colors.lightGreen.shade700,
       ),
       child: ElevatedButton(
-        onPressed: (){}, 
+        onPressed: onTap, 
         style: ElevatedButton.styleFrom(
           shadowColor: Colors.transparent,
           backgroundColor: Colors.lightGreen.shade700,

@@ -36,10 +36,12 @@ class AuthSupabaseSourceImpl implements AuthSupabaseSource {
         }
       );
       if(responce.user == null){
+        print('user is null: ');
         throw ServerException('User is null');
       }
       return responce.user!.id ;
     } catch (e) {
+      print(e);
       throw ServerException(e.toString());
     }
   }

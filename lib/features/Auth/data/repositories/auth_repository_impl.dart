@@ -24,7 +24,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String password,
   }) async {
     try {
-      final userId = await supabaseSource.signUp(
+      final userId = await supabaseSource.signUp( 
         name: name, 
         email: email, 
         password: password
