@@ -1,7 +1,11 @@
+import 'package:blog_app/core/widgets/loading.dart';
+import 'package:blog_app/core/widgets/show_snackbar.dart';
+import 'package:blog_app/features/Auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/features/Auth/presentation/widgets/auth_button.dart';
 import 'package:blog_app/features/Auth/presentation/widgets/auth_field.dart';
 import 'package:blog_app/features/Auth/presentation/widgets/glass_box.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -11,7 +15,6 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> {
-
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final formkey = GlobalKey<FormState>();
@@ -27,92 +30,98 @@ class _SignInPageState extends State<SignInPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.only(bottom: 25,),
+        padding: EdgeInsets.only(bottom: 25),
         decoration: BoxDecoration(
           image: DecorationImage(
             image: AssetImage('lib/core/images/background_image.jpg'),
-            fit: BoxFit.cover,  
+            fit: BoxFit.cover,
           ),
         ),
         alignment: Alignment(0, 0.8),
         child: GlassBox(
           width: MediaQuery.of(context).size.width - 50,
           height: 550,
-          child: Form(
-            key: formkey,
-            child: Column(
-              children: [
-                Text(
-                  'Sign In',
-                  style: TextStyle(
-                    fontSize: 40,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  'Log in to manage your blogs',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.white54,
-                  ),
-                ),
-                SizedBox(
-                  height: 30,
-                ), 
-                AuthField(
-                  hintText: 'Email',
-                  suffixIcon: Icon(Icons.email_outlined),
-                  controller: emailController,
-                ),
-                SizedBox(
-                  height: 15,
-                ),  
-                AuthField(
-                  hintText: 'Password',
-                  suffixIcon: Icon(Icons.visibility_off),
-                  controller: passwordController,
-                  isPassword: true,
-                ),
-                SizedBox(
-                  height: 30,
-                ),
-                AuthButton(
-                  text: 'Sign In',
-                  onTap: (){},
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+          child: BlocConsumer<AuthBloc, AuthState>(
+            listener: (context, state) {
+              if(state is AuthFailure){
+                showSnackbar(context, state.message);
+              }
+            },
+            builder: (context, state) {
+              if(state is AuthLoading){
+                return Loading();
+              }
+
+              return Form(
+                key: formkey,
+                child: Column(
                   children: [
                     Text(
-                      'Don\'t have an account?  ',
+                      'Sign In',
                       style: TextStyle(
-                        color: Colors.white54,
-                        fontSize: 16,
+                        fontSize: 40,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                    GestureDetector(
+                    SizedBox(height: 10),
+                    Text(
+                      'Log in to manage your blogs',
+                      style: TextStyle(fontSize: 16, color: Colors.white54),
+                    ),
+                    SizedBox(height: 30),
+                    AuthField(
+                      hintText: 'Email',
+                      suffixIcon: Icon(Icons.email_outlined),
+                      controller: emailController,
+                    ),
+                    SizedBox(height: 15),
+                    AuthField(
+                      hintText: 'Password',
+                      suffixIcon: Icon(Icons.visibility_off),
+                      controller: passwordController,
+                      isPassword: true,
+                    ),
+                    SizedBox(height: 30),
+                    AuthButton(
+                      text: 'Sign In',
                       onTap: () {
-                        Navigator.pushNamed(context, 'signUpPage');
+                        if (formkey.currentState!.validate()) {
+                          context.read<AuthBloc>().add(
+                            AuthSignIn(
+                              email: emailController.text.trim(),
+                              password: passwordController.text.trim(),
+                            ),
+                          );
+                        }
                       },
-                      child: Text(
-                        'Sign up',
-                        style: TextStyle(
-                            color: Colors.green.shade800 ,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 16,
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Don\'t have an account?  ',
+                          style: TextStyle(color: Colors.white54, fontSize: 16),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(context, 'signUpPage');
+                          },
+                          child: Text(
+                            'Sign up',
+                            style: TextStyle(
+                              color: Colors.green.shade800,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 16,
+                            ),
                           ),
-                      ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
+              );
+            },
           ),
         ),
       ),

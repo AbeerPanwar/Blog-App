@@ -20,9 +20,19 @@ class AuthSupabaseSourceImpl implements AuthSupabaseSource {
   AuthSupabaseSourceImpl(this.supabaseClient);
 
   @override
-  Future<ProfileModel> signIn({required String email, required String password}) {
-    // TODO: implement signIn
-    throw UnimplementedError();
+  Future<ProfileModel> signIn({required String email, required String password}) async {
+    try {
+      final responce = await supabaseClient.auth.signInWithPassword(
+        password: password, 
+        email: email,
+      );
+      if(responce.user == null){
+        throw ServerException('User is null');
+      }
+      return ProfileModel.FromJson(responce.user!.toJson());
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
   }
 
   @override

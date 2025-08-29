@@ -1,20 +1,36 @@
+import 'package:blog_app/core/secrets/app_secrets.dart';
 import 'package:blog_app/core/theme/theme.dart';
+import 'package:blog_app/features/Auth/data/data_sources/auth_supabase_source.dart';
+import 'package:blog_app/features/Auth/data/repositories/auth_repository_impl.dart';
+import 'package:blog_app/features/Auth/domain/use_cases/user_sign_in.dart';
+import 'package:blog_app/features/Auth/domain/use_cases/user_sign_up.dart';
 import 'package:blog_app/features/Auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/features/Auth/presentation/pages/sign_up.dart';
 import 'package:blog_app/features/Auth/presentation/pages/sing_in.dart';
-import 'package:blog_app/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initDependencies();
+  final supabase = await Supabase.initialize(
+    url: AppSecrets.supabaseUrl,
+    anonKey: AppSecrets.supabaseAnonKey,
+  );
+  ;
 
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => serviceLocator<AuthBloc>(),
+          create: (_) => AuthBloc(
+            userSignUp: UserSignUp(
+              AuthRepositoryImpl(AuthSupabaseSourceImpl(supabase.client)),
+            ),
+            userSignIn: UserSignIn(
+              AuthRepositoryImpl(AuthSupabaseSourceImpl(supabase.client)),
+            ),
+          ),
         ),
       ],
       child: const MyApp(),
