@@ -2,6 +2,7 @@ import 'package:blog_app/core/secrets/app_secrets.dart';
 import 'package:blog_app/core/theme/theme.dart';
 import 'package:blog_app/features/Auth/data/data_sources/auth_supabase_source.dart';
 import 'package:blog_app/features/Auth/data/repositories/auth_repository_impl.dart';
+import 'package:blog_app/features/Auth/domain/use_cases/current_user.dart';
 import 'package:blog_app/features/Auth/domain/use_cases/user_sign_in.dart';
 import 'package:blog_app/features/Auth/domain/use_cases/user_sign_up.dart';
 import 'package:blog_app/features/Auth/presentation/bloc/auth_bloc.dart';
@@ -30,6 +31,9 @@ void main() async {
             userSignIn: UserSignIn(
               AuthRepositoryImpl(AuthSupabaseSourceImpl(supabase.client)),
             ),
+            currentUser: CurrentUser(
+              AuthRepositoryImpl(AuthSupabaseSourceImpl(supabase.client)),
+            ),
           ),
         ),
       ],
@@ -38,8 +42,22 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<AuthBloc>().add(AuthIsUserLoggedIn());
+  }
+
 
   @override
   Widget build(BuildContext context) {

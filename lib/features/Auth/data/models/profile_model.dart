@@ -7,11 +7,23 @@ class ProfileModel extends Profile {
     required super.name,
   });
 
-  factory ProfileModel.FromJson(Map<String, dynamic> map) {
+  factory ProfileModel.fromJson(Map<String, dynamic> map) {
     return ProfileModel(
       id: map['id'] ?? '', 
       email: map['email'] ?? '', 
       name: map['name'] ?? '',
+    );
+  }
+
+  ProfileModel copyWith({
+    String? id,
+    String? email,
+    String? name, 
+  }) {
+    return ProfileModel(
+      id: id ?? this.id, 
+      email: email ?? this.email, 
+      name: name ?? this.name
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:blog_app/features/Auth/data/models/profile_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class AuthSupabaseSource {
+  Session? get currentSession;
   Future<ProfileModel> signUp({
     required String name,
     required String email,
@@ -10,9 +11,11 @@ abstract interface class AuthSupabaseSource {
   });
 
   Future<ProfileModel> signIn({
-    required String email, 
+    required String email,
     required String password,
   });
+
+  Future<ProfileModel?> getCurrentUserData();
 }
 
 class AuthSupabaseSourceImpl implements AuthSupabaseSource {
@@ -20,16 +23,24 @@ class AuthSupabaseSourceImpl implements AuthSupabaseSource {
   AuthSupabaseSourceImpl(this.supabaseClient);
 
   @override
-  Future<ProfileModel> signIn({required String email, required String password}) async {
+  Session? get currentSession => supabaseClient.auth.currentSession;
+
+  @override
+  Future<ProfileModel> signIn({
+    required String email,
+    required String password,
+  }) async {
     try {
       final responce = await supabaseClient.auth.signInWithPassword(
-        password: password, 
+        password: password,
         email: email,
       );
-      if(responce.user == null){
+      if (responce.user == null) {
         throw ServerException('User is null');
       }
-      return ProfileModel.FromJson(responce.user!.toJson());
+      return ProfileModel.fromJson(
+        responce.user!.toJson(),
+      ).copyWith(email: currentSession!.user.email);
     } catch (e) {
       throw ServerException(e.toString());
     }
@@ -43,16 +54,35 @@ class AuthSupabaseSourceImpl implements AuthSupabaseSource {
   }) async {
     try {
       final responce = await supabaseClient.auth.signUp(
-        password: password, 
+        password: password,
         email: email,
-        data: {
-          'name' : name,
-        }
+        data: {'name': name},
       );
-      if(responce.user == null){
+      if (responce.user == null) {
         throw ServerException('User is null');
       }
-      return ProfileModel.FromJson(responce.user!.toJson());
+      return ProfileModel.fromJson(
+        responce.user!.toJson(),
+      ).copyWith(email: currentSession!.user.email);
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<ProfileModel?> getCurrentUserData() async {
+    try {
+      if (currentSession != null) {
+        final userData = await supabaseClient
+            .from('profiles')
+            .select()
+            .eq('id', currentSession!.user.id);
+        return ProfileModel.fromJson(
+          userData.first,
+        ).copyWith(email: currentSession!.user.email);
+      }
+
+      return null;
     } catch (e) {
       throw ServerException(e.toString());
     }
