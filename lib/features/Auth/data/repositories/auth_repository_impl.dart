@@ -1,7 +1,7 @@
 import 'package:blog_app/core/error/exceptions.dart';
 import 'package:blog_app/core/error/faliure.dart';
 import 'package:blog_app/features/Auth/data/data_sources/auth_supabase_source.dart';
-import 'package:blog_app/features/Auth/domain/entities/profile.dart';
+import 'package:blog_app/core/common/entities/profile.dart';
 import 'package:blog_app/features/Auth/domain/repositories/auth_repository.dart';
 import 'package:fpdart/fpdart.dart';
 
