@@ -9,7 +9,7 @@ class BlogPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey.shade300,
       appBar: AppBar(
-        actionsPadding: EdgeInsets.only(right: 10,),
+        actionsPadding: EdgeInsets.only(right: 10),
         backgroundColor: Colors.transparent,
         title: Text(
           'Hi, Abeer',
@@ -20,13 +20,10 @@ class BlogPage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        leading: IconButton(
-          onPressed: () {},
-          icon: Icon(
-            CupertinoIcons.person_alt,
-            color: Colors.black,
-            size: 30,
-          ),
+        leading: Icon(
+          CupertinoIcons.person_crop_circle,
+          color: Colors.grey.shade900,
+          size: 35,
         ),
         actions: [
           Card(
@@ -37,11 +34,7 @@ class BlogPage extends StatelessWidget {
               onPressed: () {
                 Navigator.pushNamed(context, 'addBlogPage');
               },
-              icon: Icon(
-                Icons.add_outlined,
-                color: Colors.black,
-                size: 22,
-              ),
+              icon: Icon(Icons.add_outlined, color: Colors.black, size: 22),
             ),
           ),
         ],

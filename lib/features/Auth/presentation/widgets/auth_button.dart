@@ -1,12 +1,15 @@
+import 'package:blog_app/core/common/widgets/loading.dart';
 import 'package:flutter/material.dart';
 
 class AuthButton extends StatelessWidget {
   final String text;
   final VoidCallback onTap;
+  final bool isLoading;
   const AuthButton({
     super.key, 
     required this.text, 
     required this.onTap,
+    this.isLoading = false,
   });
 
   @override
@@ -24,7 +27,7 @@ class AuthButton extends StatelessWidget {
           backgroundColor: Colors.grey.shade700,
           fixedSize: Size(double.maxFinite, 60) 
         ) ,
-        child: Text(
+        child: isLoading? Loading() : Text(
           text,
           style: TextStyle(
             fontSize: 18,

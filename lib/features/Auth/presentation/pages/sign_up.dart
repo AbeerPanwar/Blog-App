@@ -19,6 +19,7 @@ class _SignUpPageState extends State<SignUpPage> {
   final nameController = TextEditingController();
   final passwordController = TextEditingController();
   final formkey = GlobalKey<FormState>();
+  bool isLoading = false;
 
   @override
   void dispose() {
@@ -60,7 +61,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 },
                 builder: (context, state) {
                   if (state is AuthLoading) {
-                    return Loading();
+                    isLoading = true;
                   }
 
                   return Form(
@@ -100,6 +101,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         ),
                         SizedBox(height: 30),
                         AuthButton(
+                          isLoading: isLoading,
                           text: 'Sign Up',
                           onTap: () {
                             if (formkey.currentState!.validate()) {
