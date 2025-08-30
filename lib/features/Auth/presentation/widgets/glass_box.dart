@@ -21,7 +21,7 @@ class GlassBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: _borderRadius,
-      child: Container(
+      child: SizedBox(
         width: width,
         height: height,
         child: Stack(
@@ -42,8 +42,8 @@ class GlassBox extends StatelessWidget {
                   begin: Alignment.topRight,
                   end: Alignment.bottomLeft,
                   colors:[
-                    Colors.green.shade400.withValues(alpha: 0.2,),
-                    Colors.green.shade400.withValues(alpha: 0.2,),
+                    Colors.grey.shade500.withValues(alpha: 0.2,),
+                    Colors.grey.shade500.withValues(alpha: 0.2,),
                   ],
                 )
               ),

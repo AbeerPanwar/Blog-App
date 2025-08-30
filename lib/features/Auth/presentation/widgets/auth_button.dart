@@ -13,15 +13,15 @@ class AuthButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.lightGreen.shade800,),
+        border: Border.all(color: Colors.grey.shade900,),
         borderRadius: BorderRadius.circular(15),
-        color: Colors.lightGreen.shade700,
+        color: Colors.grey.shade700,
       ),
       child: ElevatedButton(
         onPressed: onTap, 
         style: ElevatedButton.styleFrom(
           shadowColor: Colors.transparent,
-          backgroundColor: Colors.lightGreen.shade700,
+          backgroundColor: Colors.grey.shade700,
           fixedSize: Size(double.maxFinite, 60) 
         ) ,
         child: Text(

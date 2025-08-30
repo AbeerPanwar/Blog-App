@@ -38,6 +38,7 @@ dependencies:
   supabase_flutter: ^2.9.1
   flutter_bloc: ^9.1.1
   get_it: ^8.2.0
+  dotted_border: ^3.1.0
 
 dev_dependencies:
   flutter_test:
@@ -77,11 +78,11 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+  fonts:
+    - family: FunnelDisplay
+      fonts:
+        - asset: lib/core/assets/fonts/static/FunnelDisplay-Regular.ttf
+        - asset: lib/core/assets/fonts/static/FunnelDisplay-Bold.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:

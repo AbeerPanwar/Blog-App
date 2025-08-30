@@ -3,6 +3,8 @@ import 'package:blog_app/core/theme/theme.dart';
 import 'package:blog_app/features/Auth/presentation/bloc/auth_bloc.dart';
 import 'package:blog_app/features/Auth/presentation/pages/sign_up.dart';
 import 'package:blog_app/features/Auth/presentation/pages/sing_in.dart';
+import 'package:blog_app/features/blog/presentation/pages/add_blog_page.dart';
+import 'package:blog_app/features/blog/presentation/pages/blog_page.dart';
 import 'package:blog_app/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,14 +47,15 @@ class _MyAppState extends State<MyApp> {
       routes: {
         'signUpPage': (context) => SignUpPage(),
         'signInPage': (context) => SignInPage(),
+        'addBlogPage': (context) => AddBlogPage(),
       },
       home: BlocSelector<AppUserCubit, AppUserState, bool>(
         selector: (state) {
           return state is AppUserLoggedIn;
         },
         builder: (context, isLoggedIn) {
-          if(isLoggedIn){
-            return Scaffold();
+          if (isLoggedIn) {
+            return BlogPage();
           }
           return const SignInPage();
         },
