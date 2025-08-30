@@ -20,10 +20,13 @@ class BlogPage extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        leading: Icon(
-          CupertinoIcons.person_crop_circle,
-          color: Colors.grey.shade900,
-          size: 35,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 15),
+          child: Icon(
+            CupertinoIcons.person_crop_circle,
+            color: Colors.grey.shade900,
+            size: 45,
+          ),
         ),
         actions: [
           Card(

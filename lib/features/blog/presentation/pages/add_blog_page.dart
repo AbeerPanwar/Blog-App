@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:blog_app/core/common/utils/image_picker.dart';
 import 'package:blog_app/features/blog/presentation/widgets/blog_add_field.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +15,17 @@ class AddBlogPage extends StatefulWidget {
 class _AddBlogPageState extends State<AddBlogPage> {
   final titleController = TextEditingController();
   final contentController = TextEditingController();
+  List<String> selectedCategory = [];
+  File? image;
+
+  void selectImage() async {
+    final pickedImage = await pickImage();
+    if (pickedImage != null) {
+      setState(() {
+        image = pickedImage;
+      });
+    }
+  }
 
   @override
   void dispose() {
@@ -94,68 +108,108 @@ class _AddBlogPageState extends State<AddBlogPage> {
           padding: const EdgeInsets.all(15),
           child: Column(
             children: [
-              DottedBorder(
-                options: RoundedRectDottedBorderOptions(
-                  dashPattern: [15, 4],
-                  strokeCap: StrokeCap.round,
-                  color: Colors.grey.shade600,
-                  radius: Radius.circular(20),
-                ),
-                child: SizedBox(
-                  height: 150,
-                  width: double.infinity,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.folder_open, color: Colors.black, size: 40),
-                      SizedBox(height: 5),
-                      Text(
-                        'Select your Image',
-                        style: TextStyle(
-                          fontFamily: 'FunnelDisplay',
-                          color: Colors.grey.shade900,
-                          fontSize: 16,
+              image != null
+                  ? GestureDetector(
+                      onTap: () {
+                        selectImage();
+                      },
+                      child: SizedBox(
+                        width: double.infinity,
+                        child: ClipRRect(
+                          borderRadius: BorderRadiusGeometry.circular(20),
+                          child: Image.file(image!, fit: BoxFit.cover),
                         ),
                       ),
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 20,),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: [
-                    'Technology',
-                    'Buisness',
-                    'Entertainment',
-                    'Programming',
-                    'Pyschological',
-                  ].map(
-                    (e) => Padding(
-                      padding: const EdgeInsets.all(5),
-                      child: Chip(
-                        backgroundColor: Colors.grey.shade300,
-                        side: BorderSide(
+                    )
+                  : GestureDetector(
+                      onTap: () {
+                        selectImage();
+                      },
+                      child: DottedBorder(
+                        options: RoundedRectDottedBorderOptions(
+                          dashPattern: [15, 4],
+                          strokeCap: StrokeCap.round,
                           color: Colors.grey.shade600,
+                          radius: Radius.circular(20),
                         ),
-                        label: Text(
-                          e,
-                          style: TextStyle(
-                            fontFamily: 'funnelDisplay',
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                        child: SizedBox(
+                          height: 150,
+                          width: double.infinity,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.folder_open,
+                                color: Colors.black,
+                                size: 40,
+                              ),
+                              SizedBox(height: 5),
+                              Text(
+                                'Select your Image',
+                                style: TextStyle(
+                                  fontFamily: 'FunnelDisplay',
+                                  color: Colors.grey.shade900,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ),
-                  ).toList(),
+              SizedBox(height: 20),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children:
+                      [
+                            'Technology',
+                            'Buisness',
+                            'Entertainment',
+                            'Programming',
+                            'Pyschological',
+                          ]
+                          .map(
+                            (e) => Padding(
+                              padding: const EdgeInsets.all(5),
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (selectedCategory.contains(e)) {
+                                    selectedCategory.remove(e);
+                                  } else {
+                                    selectedCategory.add(e);
+                                  }
+                                  setState(() {});
+                                },
+                                child: Chip(
+                                  backgroundColor: selectedCategory.contains(e)
+                                      ? Colors.pinkAccent
+                                      : Colors.grey.shade300,
+                                  side: selectedCategory.contains(e)
+                                      ? null
+                                      : BorderSide(color: Colors.grey.shade600),
+                                  label: Text(
+                                    e,
+                                    style: TextStyle(
+                                      fontFamily: 'funnelDisplay',
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
+                          .toList(),
                 ),
               ),
-              SizedBox(height: 20,),
-              BlogAddField(controller: titleController , hintText: 'Blog Title',),
-              SizedBox(height: 20,),
-              BlogAddField(controller: contentController , hintText: 'Blog Content',),
+              SizedBox(height: 20),
+              BlogAddField(controller: titleController, hintText: 'Blog Title'),
+              SizedBox(height: 20),
+              BlogAddField(
+                controller: contentController,
+                hintText: 'Blog Content',
+              ),
             ],
           ),
         ),
