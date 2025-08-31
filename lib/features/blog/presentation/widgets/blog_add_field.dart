@@ -3,21 +3,22 @@ import 'package:flutter/material.dart';
 class BlogAddField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
-  const BlogAddField({super.key, required this.controller, required this.hintText});
+  const BlogAddField({
+    super.key,
+    required this.controller,
+    required this.hintText,
+  });
 
-  static OutlineInputBorder  _border(width, Color color) => OutlineInputBorder(
-        borderSide: BorderSide(
-          color: color,
-          width: width,
-        ),
-        borderRadius: BorderRadius.circular(15),
-      );
+  static OutlineInputBorder _border(width, Color color) => OutlineInputBorder(
+    borderSide: BorderSide(color: color, width: width),
+    borderRadius: BorderRadius.circular(15),
+  );
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      style: TextStyle(color: Colors.black,),
+      style: TextStyle(color: Colors.black),
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: TextStyle(
@@ -26,10 +27,23 @@ class BlogAddField extends StatelessWidget {
           color: Colors.grey.shade700,
         ),
         fillColor: Colors.grey.shade300,
+        border: _border(1.3, Colors.black),
         enabledBorder: _border(1.3, Colors.grey.shade900),
-        focusedBorder: _border(2.0, Colors.black,),
+        focusedBorder: _border(2.0, Colors.black),
+        errorBorder: _border(2.0, Colors.red.shade700),
+        focusedErrorBorder: _border(2.0, Colors.black) ,
+        errorStyle: TextStyle(
+          color: Colors.red,
+          fontSize: 14,
+        ),
       ),
       maxLines: null,
+      validator: (value) {
+        if (value!.trim().isEmpty) {
+          return '$hintText is missing';
+        }
+        return null;
+      },
     );
   }
 }
