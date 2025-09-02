@@ -25,11 +25,11 @@ class BlogModel extends Blog {
 
   factory BlogModel.fromJson(Map<String, dynamic> map) {
     return BlogModel(
-      id: map['id'] as String,
-      userId: map[' user_id'] as String,
-      title: map['title'] as String,
-      content: map['content'] as String,
-      imageUrl: map['image_url'] as String,
+      id: map['id']?.toString() ?? '',
+      userId: map[' user_id']?.toString() ?? '',
+      title: map['title']?.toString() ?? '',
+      content: map['content']?.toString() ?? '',
+      imageUrl: map['image_url']?.toString() ?? '',
       topics: List<String>.from(map['topics'] ?? []),
       updatedAt: map['updated_at'] == null
           ? DateTime.now()

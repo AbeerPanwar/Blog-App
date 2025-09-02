@@ -35,7 +35,6 @@ class BlogRepositoryImpl implements BlogRepository {
         image: image,
         blog: blogModel,
       );
-
       blogModel = blogModel.copyWith(imageUrl: imageUrl);
 
       final uploadedBlog = await blogSupabaseSource.uploadBlog(blogModel);
