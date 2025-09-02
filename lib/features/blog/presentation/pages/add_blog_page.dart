@@ -122,7 +122,44 @@ class _AddBlogPageState extends State<AddBlogPage> {
             shape: CircleBorder(),
             elevation: 0.5,
             child: IconButton(
-              onPressed: uploadBlog,
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                    backgroundColor: Colors.grey.shade900,
+                    title: Text(
+                      'Upload',
+                      style: TextStyle(
+                        fontFamily: 'FunnelDisplay',
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey.shade300,
+                      ),
+                    ),
+                    content: Text(
+                      'Do you want to upload this blog?',
+                      style: TextStyle(
+                        fontFamily: 'FunnelDisplay',
+                        fontSize: 16,
+                        color: Colors.grey.shade500,
+                      ),
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: Text('No', style: TextStyle(color: Colors.blue)),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          uploadBlog();
+                        },
+                        child: Text('Yes', style: TextStyle(color: Colors.red)),
+                      ),
+                    ],
+                  ),
+                );
+              },
               icon: Icon(Icons.done_rounded, color: Colors.black, size: 22),
             ),
           ),
