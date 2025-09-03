@@ -264,7 +264,7 @@ class _AddBlogPageState extends State<AddBlogPage> {
                                       child: Chip(
                                         backgroundColor:
                                             selectedCategory.contains(e)
-                                            ? Colors.pinkAccent
+                                            ? Colors.teal.shade400
                                             : Colors.grey.shade300,
                                         side: selectedCategory.contains(e)
                                             ? null
