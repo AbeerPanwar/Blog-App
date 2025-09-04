@@ -93,7 +93,7 @@ class BlogCard extends StatelessWidget {
                 elevation: 0,
                 child: IconButton(
                   onPressed: () {
-                    Navigator.push(context, BlogViewPage.route());
+                    Navigator.push(context, BlogViewPage.route(blog));
                   },
                   icon: Icon(
                     Icons.arrow_outward_rounded,
