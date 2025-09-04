@@ -32,7 +32,7 @@ class _BlogPageState extends State<BlogPage> {
           'Hey, Abeer',
           style: TextStyle(
             fontFamily: 'Funneldisplay',
-            color: Colors.black,
+            color: Colors.green.shade600,
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
@@ -90,8 +90,13 @@ class _BlogPageState extends State<BlogPage> {
                     itemBuilder: (context, index) {
                       final blog = state.blogs[index];
                       return BlogCard(
-                        color: index % 3 == 0 ? Colors.teal.shade400 : index % 3 == 1 ? Colors.amber.shade700 : Colors.cyan.shade700, 
-                        blog: blog
+                        iconTextColor: Colors.black,
+                        iconColor: index == 0 ? Colors.green.shade100 : Colors.grey.shade400,
+                        textColor: index == 0 ? Colors.white: Colors.black,
+                        tileTextColor: index == 0? Colors.black : Colors.white,
+                        tileColor: index == 0 ? Colors.green.shade100 : Colors.grey.shade800,
+                        color: index == 0 ? Colors.green.shade700 : Colors.grey.shade100, 
+                        blog: blog, 
                       );
                     },
                   ),

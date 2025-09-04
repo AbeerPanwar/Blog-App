@@ -1,10 +1,25 @@
 import 'package:blog_app/features/blog/domain/entities/blog.dart';
+import 'package:blog_app/features/blog/presentation/pages/blog_view_page.dart';
 import 'package:flutter/material.dart';
 
 class BlogCard extends StatelessWidget {
   final Color color;
   final Blog blog;
-  const BlogCard({super.key, required this.color, required this.blog});
+  final Color textColor;
+  final Color tileColor;
+  final Color tileTextColor;
+  final Color iconColor;
+  final Color iconTextColor;
+  const BlogCard({
+    super.key,
+    required this.color,
+    required this.blog,
+    required this.textColor,
+    required this.tileColor,
+    required this.iconColor,
+    required this.tileTextColor,
+    required this.iconTextColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +46,14 @@ class BlogCard extends StatelessWidget {
                         (e) => Padding(
                           padding: const EdgeInsets.all(5),
                           child: Chip(
-                            backgroundColor: Colors.grey.shade300,
+                            backgroundColor: tileColor,
                             side: null,
                             label: Text(
                               e,
                               style: TextStyle(
                                 fontFamily: 'funnelDisplay',
                                 fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                                color: tileTextColor,
                               ),
                             ),
                           ),
@@ -52,6 +67,7 @@ class BlogCard extends StatelessWidget {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
+                  color: textColor,
                   fontFamily: 'funnelDisplay',
                   fontSize: 26,
                   fontWeight: FontWeight.bold,
@@ -65,18 +81,25 @@ class BlogCard extends StatelessWidget {
               Text(
                 '~ ${blog.userName}',
                 style: TextStyle(
+                  color: textColor,
                   fontSize: 18,
                   fontWeight: FontWeight.w400,
                   fontFamily: 'funnelDisplay',
                 ),
               ),
               Card(
-                color: Colors.grey.shade100,
+                color: iconColor,
                 shape: CircleBorder(),
                 elevation: 0,
                 child: IconButton(
-                  onPressed: () {},
-                  icon: Icon(Icons.arrow_outward_rounded, color: Colors.black, size: 20),
+                  onPressed: () {
+                    Navigator.push(context, BlogViewPage.route());
+                  },
+                  icon: Icon(
+                    Icons.arrow_outward_rounded,
+                    color: iconTextColor,
+                    size: 20,
+                  ),
                 ),
               ),
             ],
