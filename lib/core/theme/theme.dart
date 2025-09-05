@@ -18,6 +18,8 @@ class AppTheme {
       contentPadding: EdgeInsets.all(20),
       enabledBorder: _border(1.0, Colors.grey.shade900),
       focusedBorder: _border(2.0, Colors.white),
+      errorBorder: _border(1.0, Colors.red),
+      focusedErrorBorder: _border(1.0, Colors.red),
       filled: true,
       fillColor: Colors.black54,
     ),

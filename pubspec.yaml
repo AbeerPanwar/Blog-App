@@ -44,6 +44,7 @@ dependencies:
   image_picker: ^1.2.0
   uuid: ^4.5.1
   intl: ^0.20.2
+  
 
 dev_dependencies:
   flutter_test:
@@ -55,9 +56,16 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^5.0.0
-
+  flutter_native_splash: ^2.4.6
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+
+flutter_native_splash:
+  android: true
+  ios: true
+  
+  color: '#000000'
+  image: lib/core/images/blog-logo.png
 
 # The following section is specific to Flutter packages.
 flutter:

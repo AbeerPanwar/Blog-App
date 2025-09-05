@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignInPage extends StatefulWidget {
+  static route() => MaterialPageRoute(builder: (context) => SignInPage());
   const SignInPage({super.key});
 
   @override
@@ -41,13 +42,6 @@ class _SignInPageState extends State<SignInPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Icon(
-              Icons.logout_rounded,
-              color: Colors.grey.shade100,
-              size: 140,
-              fontWeight: FontWeight.w100,
-            ),
-            SizedBox(height: 50),
             GlassBox(
               width: MediaQuery.of(context).size.width - 50,
               height: 550,
@@ -64,80 +58,86 @@ class _SignInPageState extends State<SignInPage> {
 
                   return Form(
                     key: formkey,
-                    child: Column(
-                      children: [
-                        Text(
-                          'Sign In',
-                          style: TextStyle(
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Text(
-                          'Log in to manage your blogs',
-                          style: TextStyle(fontSize: 16, color: Colors.white54),
-                        ),
-                        SizedBox(height: 30),
-                        AuthField(
-                          hintText: 'Email',
-                          suffixIcon: Icon(Icons.email_outlined),
-                          controller: emailController,
-                        ),
-                        SizedBox(height: 15),
-                        AuthField(
-                          hintText: 'Password',
-                          suffixIcon: Icon(Icons.visibility_off),
-                          controller: passwordController,
-                          isPassword: true,
-                        ),
-                        SizedBox(height: 30),
-                        AuthButton(
-                          isLoading: isLoading,
-                          text: 'Sign In',
-                          onTap: () {
-                            if (formkey.currentState!.validate()) {
-                              context.read<AuthBloc>().add(
-                                AuthSignIn(
-                                  email: emailController.text.trim(),
-                                  password: passwordController.text.trim(),
-                                ),
-                              );
-                            }
-                          },
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              'Don\'t have an account?  ',
-                              style: TextStyle(
-                                color: Colors.white54,
-                                fontSize: 16,
-                              ),
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          Text(
+                            'Sign In',
+                            style: TextStyle(
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(context, 'signUpPage');
-                              },
-                              child: Text(
-                                'Sign up',
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            'Log in to manage your blogs',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white54,
+                            ),
+                          ),
+                          SizedBox(height: 30),
+                          AuthField(
+                            hintText: 'Email',
+                            suffixIcon: Icon(Icons.email_outlined),
+                            controller: emailController,
+                          ),
+                          SizedBox(height: 15),
+                          AuthField(
+                            hintText: 'Password',
+                            suffixIcon: Icon(Icons.visibility_off),
+                            controller: passwordController,
+                            isPassword: true,
+                          ),
+                          SizedBox(height: 30),
+                          AuthButton(
+                            isLoading: isLoading,
+                            text: 'Sign In',
+                            onTap: () {
+                                if (formkey.currentState!.validate()) {
+                                  context.read<AuthBloc>().add(
+                                    AuthSignIn(
+                                      email: emailController.text.trim(),
+                                      password: passwordController.text.trim(),
+                                    ),
+                                  );
+                                }
+                            },
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Don\'t have an account?  ',
                                 style: TextStyle(
-                                  color: Colors.lightGreenAccent,
-                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white54,
                                   fontSize: 16,
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.pushNamed(context, 'signUpPage');
+                                },
+                                child: Text(
+                                  'Sign up',
+                                  style: TextStyle(
+                                    color: Colors.lightGreenAccent,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
               ),
             ),
+            SizedBox(height: 50),
           ],
         ),
       ),

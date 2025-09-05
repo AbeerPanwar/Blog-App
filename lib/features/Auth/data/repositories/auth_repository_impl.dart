@@ -11,9 +11,9 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Faliure, Profile>> currentUser() async {
-    try{
+    try {
       final user = await supabaseSource.getCurrentUserData();
-      if (user == null){
+      if (user == null) {
         return left(Faliure('user is not logged in!!'));
       }
       return right(user);
@@ -33,7 +33,6 @@ class AuthRepositoryImpl implements AuthRepository {
         password: password,
       );
       return right(user);
-      
     } on ServerException catch (e) {
       return left(Faliure(e.message));
     }
@@ -56,5 +55,13 @@ class AuthRepositoryImpl implements AuthRepository {
       return left(Faliure(e.message));
     }
   }
-  
+
+  @override
+  Future<void> signOut() async {
+    try {
+      await supabaseSource.signOut();
+    } on ServerException catch (e) {
+      throw Faliure(e.message);
+    }
+  }
 }
